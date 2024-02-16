@@ -24,7 +24,7 @@ const initilizeDatabase = async () => {
 initilizeDatabase()
 
 app.get("/products/", async (request, response) => {
-    const {search_q = "",offset=0,limit = 10} = request.query
+    const {search_q = ""} = request.query
     const sqlQuery = `
      select
      *
@@ -33,27 +33,13 @@ app.get("/products/", async (request, response) => {
      where
      title like "%${search_q}%" OR
      description like "%${search_q}%" OR
+     category like "%${search_q}%" OR
      price <= CAST("${search_q}" AS INTEGER)
-     limit ${limit}
-     offset ${offset}
     `
     const data = await db.all(sqlQuery)
     response.send(data)
 });
 
-app.get("/products/:month/", async (request, response) => {
-    const {month} = request.params
-    const sqlQuery = `
-    select
-    *
-    from 
-    products
-    where
-   CAST(strftime("%m", date_of_sale) as INTEGER) = 4
-    `
-    const data = await db.all(sqlQuery)
-    response.send(data)
-    
-})
+
 
 
