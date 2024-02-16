@@ -1,10 +1,12 @@
 const express = require("express");
+const http = require("http")
 const app = express();
 const {open} = require("sqlite")
 const sqlite3 = require("sqlite3")
 const path = require("path")
 const cors = require("cors")
 app.use(cors());
+const server = http.createServer(app)
 
 let dbPath = path.join(__dirname,"mydatabase.db")
 let db = null;
